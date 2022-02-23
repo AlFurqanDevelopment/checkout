@@ -63,6 +63,7 @@ class Coupon extends Model
 
     public function use($student_id)
     {
+        // يجب افراغ السيشن من رقم الطالب
         $this->times_used += 1;
         $this->save();
 

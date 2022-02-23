@@ -45,7 +45,7 @@ class Subscribe extends Model
                     $subscribe->student->name ?? '-', $subscribe->country->name, $subscribe->email,
                     $image_path ?? '-', $subscribe->bank_name ?? '-', $subscribe->account_owner ?? '-',
                     $subscribe->transfer_date ?? '-', $subscribe->bank_reference_number ?? '-', $subscribe->payment_method ?? '-',
-                    $subscribe->payment_id ?? '-', $subscribe->payment_status ?? '-', $subscribe->response_code ?? '-', $subscribe->coupon_code ?? '-', $subscribe->discount_value ?? '0.0'
+                    $subscribe->payment_id ?? '-', $subscribe->payment_status ?? '-', $subscribe->response_code ?? '-', $subscribe->coupon_code ?? '-', ($subscribe->discount_value/100) ?? '0.0'
                 ],
             ];
 
@@ -53,6 +53,7 @@ class Subscribe extends Model
         });
 
         static::updated(function($subscribe) {
+
             if ($subscribe->payment_method == 'checkout_gateway'){
                 $created_at = Carbon::parse($subscribe->created_at)->timezone('Asia/Riyadh')->format('Y-m-d H:i:s');
                 $created_at_formatted = Carbon::parse($subscribe->created_at)->timezone('Asia/Riyadh')->format('Y-m-d');
@@ -71,7 +72,7 @@ class Subscribe extends Model
                         $subscribe->student->name ?? '-', $subscribe->country->name, $subscribe->email,
                         $image_path, $subscribe->bank_name ?? '-', $subscribe->account_owner ?? '-',
                         $subscribe->transfer_date ?? '-', $subscribe->bank_reference_number ?? '-', $subscribe->payment_method ?? '-',
-                        $subscribe->payment_id ?? '-', $subscribe->payment_status ?? '-', $subscribe->response_code ?? '-', $subscribe->coupon_code ?? '-', $subscribe->discount_value ?? '0.0'
+                        $subscribe->payment_id ?? '-', $subscribe->payment_status ?? '-', $subscribe->response_code ?? '-', $subscribe->coupon_code ?? '-', ($subscribe->discount_value/100) ?? '0.0'
                     ],
                 ];
 

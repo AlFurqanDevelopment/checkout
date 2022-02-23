@@ -79,7 +79,7 @@ class RegisterController extends Controller
 
         if ($request->payment_method == 'hsbc'){
             $request->validate([
-                'money_transfer_image_path' => 'required|image',
+                'money_transfer_image_path' => 'required|mimes:jpeg,jpg,bmp,gif,svg,webp,png,pdf,doc,docx,xlsx,xls',
                 'bank_name'     => 'required|string',
                 'account_owner' => 'required|string',
                 'transfer_date' => 'required|date',
@@ -131,7 +131,7 @@ class RegisterController extends Controller
                 'reference_number' => Session::get('reference_number'),
                 'payment_status' => Session::get('payment_status'),
                 'form_type' => 'regular',
-                'response_code' => $result->response_code,
+                'response_code' => $result->response_code ?? '-',
                 'coupon_id' => $coupon->id ?? null,
                 'discount_value' => $discount ?? 0.00,
                 'coupon_code' => $coupon->code ?? null,

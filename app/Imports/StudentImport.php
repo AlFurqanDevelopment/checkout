@@ -21,15 +21,30 @@ class StudentImport implements ToModel, WithHeadingRow, WithChunkReading, WithBa
         $name    = trim($row['alasm']);
         $section = trim($row['alksm']);
         $status  = trim($row['odaa_altalb']);
+        $path    = trim($row['almsar']);
 
         if(!is_null($row['alrkm_altslsly']) && !is_null($row['alasm']) && !is_null($row['alksm']) && !is_null($row['odaa_altalb'])){
 
-            Student::create([
-                'serial_number' => $serial_number,
-                'name'    => $name,
-                'section' => $section == 'بنين' ? '1' : '2',
-                'status'  => $status == 'منتظم' ? '1' : '0',
-            ]);
+            if ($section == 'بنين'){
+                $custom_section = 1;
+            }else{
+                $custom_section = 2;
+            }
+
+            $student = Student::query()
+                ->where('serial_number', '=', $serial_number)
+                ->where('section', '=', $custom_section)
+                ->first();
+
+            if (!$student){
+                Student::create([
+                    'serial_number' => $serial_number,
+                    'name'    => $name,
+                    'section' => $section == 'بنين' ? '1' : '2',
+                    'status'  => $status == 'منتظم' ? '1' : '0',
+                    'path'    => $path,
+                ]);
+            }
         }
     }
 

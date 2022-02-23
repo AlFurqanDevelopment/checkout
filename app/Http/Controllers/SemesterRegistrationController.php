@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use App\Models\Course;
 use App\Models\Student;
 use App\Models\Subscribe;
 use App\Service\Payment\Checkout;
@@ -23,19 +24,22 @@ class SemesterRegistrationController extends Controller
                 $response = $client->request('GET', '/payments/' . request()->query('cko-session-id'),
                     [
                         'headers' => [
-                            'Authorization' => "sk_8cbe6cf1-3871-4c1c-ae84-cd49b7e2af90"
+                            'Authorization' => "sk_f9b4d5dd-d1d0-4943-bdbf-e5cd88f37403"
                         ]
                     ]);
 
                 $data = json_decode($response->getBody()->getContents());
 
                 if ($response->getStatusCode() != 404){
-                    Subscribe::query()
+
+                    $subscribe = Subscribe::query()
                         ->where('payment_id', '=', $data->id)
-                        ->update([
-                            'payment_status' => $data->status,
-                            'response_code'  => $data->actions['response_code'],
-                        ]);
+                        ->first();
+
+                    $result = $subscribe->update([
+                        'payment_status' => $data->status,
+                        'response_code'  => $data->actions[0]->response_code ?? '-',
+                    ]);
 
                     if ($data->approved){
                         session()->flash('success', __('resubscribe.The registration process has been completed successfully'));
@@ -56,7 +60,9 @@ class SemesterRegistrationController extends Controller
         }
 
         $countries = Country::query()->where('lang', '=', App::getLocale())->get();
-        return view('old_students', ['countries' => $countries]);
+        $course = Course::query()->where('code', 'regular')->first();
+
+        return view('old_students', ['countries' => $countries, 'course' => $course]);
     }
 
     public function store(Request $request)

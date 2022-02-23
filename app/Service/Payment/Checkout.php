@@ -23,17 +23,9 @@ use Illuminate\Support\Facades\Session;
 
 class Checkout
 {
-//    private $sandbox = 'https://api.sandbox.checkout.com';
-//    private $secret = 'sk_test_1e422a84-39e0-4f2d-a94a-11add28b638c';
-//    private $public = 'pk_test_4ad7b6d1-a4b0-442d-a230-5505ec5ca43b';
-
-//    private $sandbox = 'https://api.checkout.com/payments';
-//    private $secret = 'sk_f9b4d5dd-d1d0-4943-bdbf-e5cd88f37403';
-//    private $public = 'pk_a6b33af2-dd97-4204-9df8-70bd81cfd9d0';
-
-    private $sandbox = 'https://api.checkout.com/payments';
-    private $secret = 'sk_8cbe6cf1-3871-4c1c-ae84-cd49b7e2af90';
-    private $public = 'pk_562d50cb-b790-4b10-893b-641edb7df296';
+    private $sandbox = 'https://api.sandbox.checkout.com';
+    private $secret = 'sk_test_7c21900d-0f6b-4395-af84-9508b39fd5c7';
+    private $public = 'pk_test_7f411d80-c340-411c-a6e6-9578bf634c19';
 
     /**
      * not required
@@ -49,7 +41,7 @@ class Checkout
                 'json' => [
                     "amount" => 29500,
                 ], 'headers' => [
-                'Authorization' => "pk_562d50cb-b790-4b10-893b-641edb7df296"
+                'Authorization' => "pk_test_7f411d80-c340-411c-a6e6-9578bf634c19"
             ]
             ]);
         $data = \GuzzleHttp\json_decode($response->getBody()->getContents());
@@ -66,7 +58,7 @@ class Checkout
         $reference_number = Subscribe::whereYear('created_at', '=', $now->year)->max('reference_number');
         $reference_number = $reference_number ? intval($reference_number) + 1 : $now->year . '0001';
 
-        $checkout = new CheckoutApi($this->secret, false);
+        $checkout = new CheckoutApi($this->secret);
         $method = new TokenSource($token);
 
         $payment = new Payment($method, 'USD');
@@ -85,9 +77,12 @@ class Checkout
         $payment->amount = $amount;
         $payment->capture = true;
         $payment->reference = $reference_number;
-        $payment->success_url = 'https://reports.furqangroup.com/checkout';
-        $payment->failure_url = 'https://reports.furqangroup.com/checkout';
-        $payment->threeDs = new ThreeDs(true);
+        $payment->success_url = 'http://127.0.0.1:8000/';
+        $payment->failure_url = 'http://127.0.0.1:8000/';
+        $threeDs = new ThreeDs(true);
+        $threeDs->attempt_n3d = true;
+        $payment->threeDs = $threeDs;
+
         $payment->risk = new Risk(false);
 //        $payment->setIdempotencyKey('123');
 
