@@ -16,8 +16,8 @@ class ImportController extends Controller
 
     public function importStudents()
     {
-//        Excel::import(new StudentImport(), 'male.xlsx');
-        Excel::import(new StudentImport(), 'female.xlsx');
+        Excel::import(new StudentImport(), 'ma_1.xlsx');
+//        Excel::import(new StudentImport(), 'fe_1.xlsx');
 
         dd('Import Done');
     }

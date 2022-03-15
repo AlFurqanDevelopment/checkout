@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use App\Models\Course;
+use App\Models\FavoriteTime;
 use App\Models\Student;
 use App\Models\Subscribe;
 use App\Service\Payment\Checkout;
@@ -15,6 +17,14 @@ class SemesterRegistrationController extends Controller
 {
 
     public function index()
+    {
+        $countries = Country::query()->where('lang', '=', App::getLocale())->get();
+        $course = Course::query()->where('code', 'regular')->first();
+
+        return view('old_students', ['countries' => $countries, 'course' => $course]);
+    }
+
+    public function thankYouPage()
     {
         if(request()->query('cko-session-id')){
             $client = new Client(['base_uri' => 'https://api.checkout.com']);
@@ -47,17 +57,22 @@ class SemesterRegistrationController extends Controller
                     session()->flash('error', __('resubscribe.Payment failed'));
                 }
 
-                return redirect()->route('semester.registration.index');
             }catch (\GuzzleHttp\Exception\ClientException $e) {
 //                $response = $e->getResponse();
                 session()->flash('error', __('resubscribe.Payment failed'));
-                return redirect()->route('semester.registration.index');
             }
         }
 
         $countries = Country::query()->where('lang', '=', App::getLocale())->get();
-        return view('old_students', ['countries' => $countries]);
+        $course = Course::query()->where('code', 'regular')->first();
+
+        if (! (session('error') || session('success')) ) {
+            return redirect()->route('semester.registration.index');
+        }
+
+        return view('thank-you', ['countries' => $countries, 'course' => $course]);
     }
+
 
     public function store(Request $request)
     {

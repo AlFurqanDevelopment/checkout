@@ -19,8 +19,8 @@ return [
     'Email' => 'Email *',
     'Confirm Email' => 'Confirm Email *',
     'terms and conditions' => 'I certify that the above statements are correct and that I have read all the terms and conditions and pledge to abide by that.',
-    'Payment via credit card' => 'We accept all credit cards  (Mada - VISA- Master Card - American express - others) <br> Total tuition + bank fees = $295 <span style="color: red;">this is a limited time offer</span>',
-    'HSBC Bank' => 'International Transfer (HSBC Bank) --> Total Tuition + Bank Fee = $310',
+    'Payment via credit card' => 'We accept all credit cards  (Mada - VISA- Master Card - American express - others) <br> Total tuition + bank fees = :amount$ <span style="color: red;">this is a limited time offer</span>',
+    'HSBC Bank' => 'International Transfer (HSBC Bank) --> Total Tuition + Bank Fee = :amount$',
     'Registration method' => 'Registration method',
     'Bank name' => 'Bank name',
     'Name' => 'Name',
@@ -47,7 +47,7 @@ return [
     'Please enter your student number' => 'Please enter your student number!',
     'discount total is' => 'discount total is ',
     'and price after discount is' => ' and price after discount is ',
-    'Enter coupon' => 'Enter Coupon',
+    'Enter coupon' => 'In  case if you have a coupon please insert it below',
     'Apply' => 'Apply',
 
 ];

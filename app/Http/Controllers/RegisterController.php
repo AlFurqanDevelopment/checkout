@@ -150,7 +150,7 @@ class RegisterController extends Controller
                 }else{
                     session()->flash('error', __('resubscribe.Payment failed!'));
                 }
-                return redirect()->route('semester.registration.index');
+                return redirect()->route('semester.thankYouPage');
             }
 
         }else{
@@ -169,7 +169,7 @@ class RegisterController extends Controller
         }
 
         session()->flash('success', __('resubscribe.The registration process has been completed successfully'));
-        return redirect()->route('semester.registration.index');
+        return redirect()->route('semester.thankYouPage');
     }
 
     /**

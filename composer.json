@@ -13,8 +13,10 @@
         "laravel/framework": "^8.65",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "laravel/ui": "^3.4",
         "maatwebsite/excel": "^3.1",
         "mcamara/laravel-localization": "^1.6",
+        "spatie/laravel-translatable": "^4.6",
         "symfony/intl": "^5.3"
     },
     "require-dev": {
@@ -30,7 +32,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helpers/helper.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
